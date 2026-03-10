@@ -8,11 +8,11 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/AryaSandilya/hotel-tourism.git'
-            }
-        }
+        sstage('Clone Repository') {
+    steps {
+        git branch: 'main', url: 'https://github.com/AryaSandilya/hotel-tourism.git'
+    }
+}
 
         stage('Build Maven Project') {
             steps {
