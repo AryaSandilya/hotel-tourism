@@ -9,7 +9,7 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/AryaSandilya/hotel-tourism.git'
+                git branch: 'main', url: 'https://github.com/AryaSandilya/hotel-tourism.git'
             }
         }
 
