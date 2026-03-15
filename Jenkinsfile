@@ -27,16 +27,17 @@ pipeline {
         }
 
         stage('Push Docker Image') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'rahulraj41', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    bat """
-                    docker login -u %USER% -p %PASS%
-                    docker push %DOCKER_IMAGE%:v2
-                    """
-                }
-            }
-        }
-
+		    steps {
+		        withCredentials([usernamePassword(credentialsId: 'rahulraj41', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+		            retry(3) {   // retries up to 3 times on failure
+		                bat """
+		                docker login -u %USER% -p %PASS%
+		                docker push %DOCKER_IMAGE%:v2
+		                """
+		            }
+		        }
+		    }
+		}
 		        stage('Deploy to Kubernetes') {
 		    steps {
 		        bat 'kubectl --kubeconfig C:\\Users\\khana\\.kube\\config --context=docker-desktop set image deployment/tourism-deployment tourism-container=%DOCKER_IMAGE%:v2'
