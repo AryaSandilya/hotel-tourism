@@ -38,9 +38,10 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-            steps {
-                bat "kubectl set image deployment/tourism-deployment tourism-container=%DOCKER_IMAGE%:v2"
-            }
-        }
+		    steps {
+		        // We add the --server flag to force it to use the correct port
+		        bat "kubectl set image deployment/tourism-deployment tourism-container=%DOCKER_IMAGE%:v2 --server=https://kubernetes.docker.internal:6443 --insecure-skip-tls-verify"
+		    }
+		}
     }
 }
