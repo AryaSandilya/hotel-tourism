@@ -1,18 +1,17 @@
-/*pipeline {
+pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "tourism-app"
-        IMAGE_TAG = "latest"
+        DOCKER_IMAGE = "rahulraj41/hotel-tourism"
     }
 
     stages {
 
         stage('Clone Repository') {
-           steps {
-               git branch: 'main', url: 'https://github.com/AryaSandilya/hotel-tourism.git'
-           }
-       }
+            steps {
+                git 'https://github.com/AryaSandilya/hotel-tourism.git'
+            }
+        }
 
         stage('Build Maven Project') {
             steps {
@@ -22,21 +21,27 @@
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t tourism-app:latest .'
+                sh 'docker build -t $DOCKER_IMAGE:v2 .'
             }
         }
 
-        stage('Load Image to KIND') {
+        stage('Push Docker Image') {
             steps {
-                sh 'kind load docker-image tourism-app:latest --name dev-cluster'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    sh '''
+                    docker login -u $USER -p $PASS
+                    docker push $DOCKER_IMAGE:v2
+                    '''
+                }
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl rollout restart deployment tourism-deployment'
+                sh '''
+                kubectl set image deployment/tourism-deployment tourism-container=$DOCKER_IMAGE:v2
+                '''
             }
         }
-
     }
-}*/
+}
