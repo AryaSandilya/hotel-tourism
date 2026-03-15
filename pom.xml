@@ -10,7 +10,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
-    <name>hotel-tourism Maven Webapp</name>
+    <name>hotel-tourism</name>
     <description>Sample Java Web Application for Jenkins CI/CD K8S</description>
 
     <properties>

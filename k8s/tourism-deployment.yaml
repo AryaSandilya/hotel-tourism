@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tourism-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: tourism
+  template:
+    metadata:
+      labels:
+        app: tourism
+    spec:
+      containers:
+      - name: tourism-container
+        image: rahulraj41/hotel-tourism:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
