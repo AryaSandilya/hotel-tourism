@@ -39,8 +39,8 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
 		    steps {
-		        // We add the --server flag to force it to use the correct port
-		        bat "kubectl set image deployment/tourism-deployment tourism-container=%DOCKER_IMAGE%:v2 --server=https://kubernetes.docker.internal:6443 --insecure-skip-tls-verify"
+		        // Use --kubeconfig to point directly to your working file
+		        bat 'kubectl --kubeconfig C:\\Users\\khana\\.kube\\config set image deployment/tourism-deployment tourism-container=%DOCKER_IMAGE%:v2'
 		    }
 		}
     }
