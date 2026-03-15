@@ -1,11 +1,10 @@
 pipeline {
     agent any
-
     environment {
-        // Use double backslashes or forward slashes for paths if needed
         DOCKER_IMAGE = "rahulraj41/hotel-tourism"
+        // Force kubectl to use your working config
+        KUBECONFIG = 'C:/Users/khana/.kube/config' 
     }
-
     stages {
         stage('Clone Repository') {
             steps {
