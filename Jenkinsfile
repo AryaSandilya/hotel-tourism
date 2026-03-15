@@ -37,10 +37,9 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+		        stage('Deploy to Kubernetes') {
 		    steps {
-		        // Use --kubeconfig to point directly to your working file
-		        bat 'kubectl --kubeconfig C:\\Users\\khana\\.kube\\config set image deployment/tourism-deployment tourism-container=%DOCKER_IMAGE%:v2'
+		        bat 'kubectl --kubeconfig C:\\Users\\khana\\.kube\\config --context=docker-desktop set image deployment/tourism-deployment tourism-container=%DOCKER_IMAGE%:v2'
 		    }
 		}
     }
